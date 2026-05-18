@@ -3,9 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 
 function Navbar() {
     const navigate = useNavigate();
+    const perfil = localStorage.getItem('perfil');
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('perfil');
         navigate('/login');
     };
 
@@ -13,11 +15,16 @@ function Navbar() {
         <nav style={styles.nav}>
             <div style={styles.links}>
                 <Link to="/produtos" style={styles.link}>Produtos</Link>
-                <Link to="/usuarios" style={styles.link}>Usuários</Link>
+                {perfil === 'ADMIN' && (
+                    <Link to="/usuarios" style={styles.link}>Usuários</Link>
+                )}
             </div>
-            <button onClick={handleLogout} style={styles.button}>
-                Sair
-            </button>
+            <div style={styles.right}>
+                <span style={styles.perfil}>{perfil}</span>
+                <button onClick={handleLogout} style={styles.button}>
+                    Sair
+                </button>
+            </div>
         </nav>
     );
 }
@@ -38,6 +45,15 @@ const styles = {
         color: 'white',
         textDecoration: 'none',
         fontSize: '16px'
+    },
+    right: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px'
+    },
+    perfil: {
+        color: '#aaa',
+        fontSize: '14px'
     },
     button: {
         backgroundColor: '#e74c3c',

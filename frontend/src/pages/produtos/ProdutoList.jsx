@@ -5,6 +5,7 @@ import produtoService from '../../services/produtoService';
 function ProdutoList() {
     const navigate = useNavigate();
     const [produtos, setProdutos] = useState([]);
+    const perfil = localStorage.getItem('perfil');
 
     useEffect(() => {
         carregarProdutos();
@@ -34,12 +35,14 @@ function ProdutoList() {
         <div style={styles.container}>
             <div style={styles.header}>
                 <h2>Produtos</h2>
-                <button
-                    onClick={() => navigate('/produtos/novo')}
-                    style={styles.buttonNovo}
-                >
-                    Novo Produto
-                </button>
+                {perfil === 'ADMIN' && (
+                    <button
+                        onClick={() => navigate('/produtos/novo')}
+                        style={styles.buttonNovo}
+                    >
+                        Novo Produto
+                    </button>
+                )}
             </div>
             <table style={styles.table}>
                 <thead>
@@ -51,7 +54,7 @@ function ProdutoList() {
                         <th style={styles.th}>Preço</th>
                         <th style={styles.th}>Estoque</th>
                         <th style={styles.th}>Ativo</th>
-                        <th style={styles.th}>Ações</th>
+                        {perfil === 'ADMIN' && <th style={styles.th}>Ações</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -74,20 +77,22 @@ function ProdutoList() {
                             <td style={styles.td}>R$ {produto.preco}</td>
                             <td style={styles.td}>{produto.qtdEstoque}</td>
                             <td style={styles.td}>{produto.ativo ? 'Sim' : 'Não'}</td>
-                            <td style={styles.td}>
-                                <button
-                                    onClick={() => navigate(`/produtos/editar/${produto.id}`)}
-                                    style={styles.buttonEditar}
-                                >
-                                    Editar
-                                </button>
-                                <button
-                                    onClick={() => handleDeletar(produto.id)}
-                                    style={styles.buttonDeletar}
-                                >
-                                    Deletar
-                                </button>
-                            </td>
+                            {perfil === 'ADMIN' && (
+                                <td style={styles.td}>
+                                    <button
+                                        onClick={() => navigate(`/produtos/editar/${produto.id}`)}
+                                        style={styles.buttonEditar}
+                                    >
+                                        Editar
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeletar(produto.id)}
+                                        style={styles.buttonDeletar}
+                                    >
+                                        Deletar
+                                    </button>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

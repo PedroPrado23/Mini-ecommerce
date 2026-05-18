@@ -14,6 +14,7 @@ function Login() {
         try {
             const response = await api.post('/api/auth/login', { email, senha });
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('perfil', response.data.perfil);
             navigate('/produtos');
         } catch (error) {
             setErro('Email ou senha inválidos');
