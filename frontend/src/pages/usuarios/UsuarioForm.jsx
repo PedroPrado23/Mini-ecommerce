@@ -19,6 +19,8 @@ function UsuarioForm() {
         if (editando) {
             carregarUsuario();
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     const carregarUsuario = async () => {
