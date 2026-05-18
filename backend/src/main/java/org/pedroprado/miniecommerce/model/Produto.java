@@ -23,6 +23,7 @@ public class Produto {
     private Integer qtdEstoque;
     private String categoria;
     private Boolean ativo = true;
+    private String imagemUrl;
 
     public Produto() {
     }
@@ -91,4 +92,7 @@ public class Produto {
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
+
+    public String getImagemUrl() { return imagemUrl; }
+    public void setImagemUrl(String imagemUrl) { this.imagemUrl = imagemUrl; }
 }

@@ -24,6 +24,8 @@ public class ProdutoUpdateDTO {
     @NotNull(message = "Ativo é obrigatório")
     private Boolean ativo;
 
+    private String imagemUrl;
+
     public ProdutoUpdateDTO() {
     }
 
@@ -82,5 +84,13 @@ public class ProdutoUpdateDTO {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
     }
 }

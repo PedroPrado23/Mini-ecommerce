@@ -11,10 +11,11 @@ public class ProdutoResponseDTO {
     private Integer qtdEstoque;
     private String categoria;
     private Boolean ativo;
+    private String imagemUrl;
 
     public ProdutoResponseDTO() {}
 
-    public ProdutoResponseDTO(Long id, String nome, String descricao, BigDecimal preco, Integer qtdEstoque, String categoria, Boolean ativo) {
+    public ProdutoResponseDTO(Long id, String nome, String descricao, BigDecimal preco, Integer qtdEstoque, String categoria, Boolean ativo, String imagemUrl) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -22,6 +23,7 @@ public class ProdutoResponseDTO {
         this.qtdEstoque = qtdEstoque;
         this.categoria = categoria;
         this.ativo = ativo;
+        this.imagemUrl = imagemUrl;
     }
 
     public Long getId() { return id; }
@@ -44,4 +46,12 @@ public class ProdutoResponseDTO {
 
     public Boolean getAtivo() { return ativo; }
     public void setAtivo(Boolean ativo) { this.ativo = ativo; }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
 }

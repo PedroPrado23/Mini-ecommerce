@@ -5,7 +5,6 @@ import org.pedroprado.miniecommerce.dto.produto.ProdutoResponseDTO;
 import org.pedroprado.miniecommerce.dto.produto.ProdutoUpdateDTO;
 import org.pedroprado.miniecommerce.model.Produto;
 import org.pedroprado.miniecommerce.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
 
-    public ProdutoService(ProdutoRepository produtoRepository){
+    public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
     }
 
@@ -31,7 +30,8 @@ public class ProdutoService {
                         p.getPreco(),
                         p.getQtdEstoque(),
                         p.getCategoria(),
-                        p.getAtivo()
+                        p.getAtivo(),
+                        p.getImagemUrl()
                 ))
                 .collect(Collectors.toList());
     }
@@ -45,7 +45,8 @@ public class ProdutoService {
                         p.getPreco(),
                         p.getQtdEstoque(),
                         p.getCategoria(),
-                        p.getAtivo()
+                        p.getAtivo(),
+                        p.getImagemUrl()
                 ));
     }
 
@@ -58,6 +59,7 @@ public class ProdutoService {
                 dto.getCategoria(),
                 dto.getAtivo()
         );
+        produto.setImagemUrl(dto.getImagemUrl());
         Produto salvo = produtoRepository.save(produto);
         return new ProdutoResponseDTO(
                 salvo.getId(),
@@ -66,7 +68,8 @@ public class ProdutoService {
                 salvo.getPreco(),
                 salvo.getQtdEstoque(),
                 salvo.getCategoria(),
-                salvo.getAtivo()
+                salvo.getAtivo(),
+                salvo.getImagemUrl()
         );
     }
 
@@ -80,6 +83,7 @@ public class ProdutoService {
         produto.setQtdEstoque(dto.getQtdEstoque());
         produto.setCategoria(dto.getCategoria());
         produto.setAtivo(dto.getAtivo());
+        produto.setImagemUrl(dto.getImagemUrl());
 
         Produto atualizado = produtoRepository.save(produto);
         return new ProdutoResponseDTO(
@@ -89,7 +93,8 @@ public class ProdutoService {
                 atualizado.getPreco(),
                 atualizado.getQtdEstoque(),
                 atualizado.getCategoria(),
-                atualizado.getAtivo()
+                atualizado.getAtivo(),
+                atualizado.getImagemUrl()
         );
     }
 
