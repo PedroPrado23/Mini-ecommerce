@@ -6,6 +6,7 @@ import org.pedroprado.miniecommerce.dto.usuario.UsuarioUpdateDTO;
 import org.pedroprado.miniecommerce.model.Usuario;
 import org.pedroprado.miniecommerce.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UsuarioResponseDTO> listarTodos() {
@@ -49,7 +52,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario(
                 dto.getNome(),
                 dto.getEmail(),
-                dto.getSenha(),
+                passwordEncoder.encode(dto.getSenha()),
                 dto.getPerfil(),
                 dto.getAtivo()
         );
@@ -69,7 +72,7 @@ public class UsuarioService {
 
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(dto.getSenha());
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         usuario.setPerfil(dto.getPerfil());
         usuario.setAtivo(dto.getAtivo());
 
