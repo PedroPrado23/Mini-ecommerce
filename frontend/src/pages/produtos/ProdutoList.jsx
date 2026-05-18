@@ -7,6 +7,13 @@ function ProdutoList() {
     const [produtos, setProdutos] = useState([]);
     const perfil = localStorage.getItem('perfil');
 
+    const [busca, setBusca] = useState('');
+
+    const produtosFiltrados = produtos.filter((produto) =>
+        produto.nome.toLowerCase().includes(busca.toLowerCase()) ||
+        produto.categoria.toLowerCase().includes(busca.toLowerCase())
+    );
+
     useEffect(() => {
         carregarProdutos();
     }, []);
@@ -44,6 +51,13 @@ function ProdutoList() {
                     </button>
                 )}
             </div>
+            <input
+                type="text"
+                placeholder="Buscar por nome ou categoria..."
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                style={styles.inputBusca}
+            />
             <table style={styles.table}>
                 <thead>
                     <tr>
@@ -58,7 +72,7 @@ function ProdutoList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {produtos.map((produto) => (
+                    {produtosFiltrados.map((produto) => (
                         <tr key={produto.id}>
                             <td style={styles.td}>{produto.id}</td>
                             <td style={styles.td}>
@@ -110,6 +124,14 @@ const styles = {
     td: { padding: '10px', borderBottom: '1px solid #ddd' },
     buttonEditar: { backgroundColor: '#f39c12', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', marginRight: '8px' },
     buttonDeletar: { backgroundColor: '#e74c3c', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }
+    ,inputBusca: {
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    fontSize: '14px',
+    width: '300px',
+    marginBottom: '16px'
+}
 };
 
 export default ProdutoList;
