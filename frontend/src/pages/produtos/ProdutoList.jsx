@@ -5,18 +5,27 @@ import produtoService from '../../services/produtoService';
 function ProdutoList() {
     const navigate = useNavigate();
     const [produtos, setProdutos] = useState([]);
-    const perfil = localStorage.getItem('perfil');
-
     const [busca, setBusca] = useState('');
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const produtosPorPagina = 5;
+    const perfil = localStorage.getItem('perfil');
 
     const produtosFiltrados = produtos.filter((produto) =>
         produto.nome.toLowerCase().includes(busca.toLowerCase()) ||
         produto.categoria.toLowerCase().includes(busca.toLowerCase())
     );
 
+    const totalPaginas = Math.ceil(produtosFiltrados.length / produtosPorPagina);
+    const inicio = (paginaAtual - 1) * produtosPorPagina;
+    const produtosPaginados = produtosFiltrados.slice(inicio, inicio + produtosPorPagina);
+
     useEffect(() => {
         carregarProdutos();
     }, []);
+
+    useEffect(() => {
+        setPaginaAtual(1);
+    }, [busca]);
 
     const carregarProdutos = async () => {
         try {
@@ -72,7 +81,7 @@ function ProdutoList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {produtosFiltrados.map((produto) => (
+                    {produtosPaginados.map((produto) => (
                         <tr key={produto.id}>
                             <td style={styles.td}>{produto.id}</td>
                             <td style={styles.td}>
@@ -111,6 +120,25 @@ function ProdutoList() {
                     ))}
                 </tbody>
             </table>
+            <div style={styles.paginacao}>
+                <button
+                    onClick={() => setPaginaAtual(p => p - 1)}
+                    disabled={paginaAtual === 1}
+                    style={styles.buttonPagina}
+                >
+                    Anterior
+                </button>
+                <span style={styles.infoPagina}>
+                    Página {paginaAtual} de {totalPaginas || 1}
+                </span>
+                <button
+                    onClick={() => setPaginaAtual(p => p + 1)}
+                    disabled={paginaAtual === totalPaginas || totalPaginas === 0}
+                    style={styles.buttonPagina}
+                >
+                    Próxima
+                </button>
+            </div>
         </div>
     );
 }
@@ -123,15 +151,11 @@ const styles = {
     th: { backgroundColor: '#333', color: 'white', padding: '10px', textAlign: 'left' },
     td: { padding: '10px', borderBottom: '1px solid #ddd' },
     buttonEditar: { backgroundColor: '#f39c12', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', marginRight: '8px' },
-    buttonDeletar: { backgroundColor: '#e74c3c', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }
-    ,inputBusca: {
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    fontSize: '14px',
-    width: '300px',
-    marginBottom: '16px'
-}
+    buttonDeletar: { backgroundColor: '#e74c3c', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' },
+    inputBusca: { padding: '10px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '14px', width: '300px', marginBottom: '16px' },
+    paginacao: { display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '20px' },
+    buttonPagina: { backgroundColor: '#333', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer', fontSize: '14px' },
+    infoPagina: { fontSize: '14px', color: '#333' }
 };
 
 export default ProdutoList;
